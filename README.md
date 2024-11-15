@@ -1,1 +1,1 @@
-# Lab06_ISP-Singleton
+# Lab07_ISP-Singleton
