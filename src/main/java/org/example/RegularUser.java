@@ -4,10 +4,7 @@ public class RegularUser implements User, Readable{
     private final String userID;
     private final String username;
     private final String email;
-
     private final String password;
-
-
 
     public RegularUser(String userID, String username, String email, String password) {
         this.userID = userID;

@@ -25,7 +25,6 @@ public class FileHandler {
         return data;
     }
 
-
     public void writeFile(String filename, String data, boolean append) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, append))) {
             writer.write(data);
@@ -34,15 +33,19 @@ public class FileHandler {
             System.out.println("Error Writing File: " + e.getMessage());
         }
     }
+
     public void updateFile(String filename, List<String[]> updatedData){
         try(BufferedWriter writer= new BufferedWriter(new FileWriter(filename))) {
             for (String[] row : updatedData){
                 writer.write(String.join(",",row));
+                writer.newLine(); // Add a new line after each record
             }
+            System.out.println("File updated successfully!");
         } catch (IOException e) {
             System.out.println("Error updating file: "+ e.getMessage());
         }
     }
+
     public void renameFile(String oldName, String newName){
         File oldFile= new File(oldName);
         File newFile = new File(newName);
@@ -53,17 +56,4 @@ public class FileHandler {
             System.out.println("Renaming failed");
         }
     }
-
-    public void upadeFile(String filePath, List<String[]> userData) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (String[] row : userData) {
-                writer.write(String.join(",", row));
-                writer.newLine(); // Add a new line after each record
-            }
-            System.out.println("File updated successfully!");
-        } catch (IOException e) {
-            System.out.println("Error updating file: " + e.getMessage());
-        }
-    }
-
 }
