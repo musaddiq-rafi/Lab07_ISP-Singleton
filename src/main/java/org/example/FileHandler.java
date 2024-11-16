@@ -34,4 +34,24 @@ public class FileHandler {
             System.out.println("Error Writing File: " + e.getMessage());
         }
     }
+    public void updateFile(String filename, List<String[]> updatedData){
+        try(BufferedWriter writer= new BufferedWriter(new FileWriter(filename))) {
+            for (String[] row : updatedData){
+                writer.write(String.join(",",row));
+            }
+        } catch (IOException e) {
+            System.out.println("Error updating file: "+ e.getMessage());
+        }
+    }
+    public void renameFile(String oldName, String newName){
+        File oldFile= new File(oldName);
+        File newFile = new File(newName);
+        if(oldFile.renameTo(newFile)){
+            System.out.println("File renamed successfully! ");
+        }
+        else{
+            System.out.println("Renaming failed");
+        }
+    }
+
 }
