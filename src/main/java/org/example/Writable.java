@@ -1,6 +1,5 @@
-
 package org.example;
 
 public interface Writable {
-    void writeData(String newUserDetails);
+    void writeData(String newUserDetails, String userType);
 }

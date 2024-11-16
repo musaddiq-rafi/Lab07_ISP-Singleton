@@ -1,10 +1,8 @@
 package org.example;
 
-import java.io.File;
-
 public class AdminUser extends PowerUser {
-    public AdminUser(String userID, String username, String email, String password) {
-        super(userID, username, email, password);
+    public AdminUser(String userId, String username, String email, String password) {
+        super(userId, username, email, password);
     }
 
     @Override
@@ -12,14 +10,38 @@ public class AdminUser extends PowerUser {
         return "Admin";
     }
 
-    public void modifySetting(String oldFileName, String newFileName){
+    @Override
+    public void writeData(String newUserDetails, String userType) {
+        FileHandler fileHandler = new FileHandler();
+        String filePath;
+
+        switch (userType.toLowerCase()) {
+            case "regular":
+                filePath = "src/main/java/org/example/RegularUser.csv";
+                break;
+            case "power":
+                filePath = "src/main/java/org/example/PowerUser.csv";
+                break;
+            case "admin":
+                filePath = "src/main/java/org/example/Admin.csv";
+                break;
+            default:
+                System.out.println("Invalid user type!");
+                return;
+        }
+
+        fileHandler.writeFile(filePath, newUserDetails, true); // Appends new user data to the file
+        System.out.println("New " + userType + " user details added successfully!");
+    }
+
+    public void modifySetting(String oldFileName, String newFileName) {
         FileHandler fileHandler = new FileHandler();
         fileHandler.renameFile(oldFileName, newFileName);
     }
 
-    public void updateUserDetails(String username, String updatedDetails){
+    public void updateUserDetails(String username, String updatedDetails) {
         FileHandler fileHandler = new FileHandler();
-        String filePath = "src/main/java/org/example/User.csv";
+        String filePath = "src/main/java/org/example/Admin.csv";
         var userData = fileHandler.readFile(filePath);
         boolean userFound = false;
 
@@ -32,12 +54,11 @@ public class AdminUser extends PowerUser {
                 break;
             }
         }
-        if (userFound){
+        if (userFound) {
             fileHandler.updateFile(filePath, userData);
             System.out.println("User details updated successfully!");
-        }
-        else{
-            System.out.println("User Not Found!! ");
+        } else {
+            System.out.println("User Not Found!!");
         }
     }
 }

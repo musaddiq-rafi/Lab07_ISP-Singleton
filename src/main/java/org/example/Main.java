@@ -1,4 +1,3 @@
-// src/main/java/org/example/Main.java
 package org.example;
 
 import java.util.Scanner;
@@ -7,89 +6,95 @@ public class Main {
     public static void main(String[] args) {
         UserManager userManager = UserManager.getInstance();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Username: ");
+
+        // Prompt for Username and Password
+        System.out.print("Enter Username: ");
         String username = scanner.nextLine();
 
-        System.out.println("Enter Password: ");
+        System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
+        // Authenticate User
         User user = userManager.authenticate(username, password);
         if (user != null) {
+            // Display user type
             System.out.println("Authenticated as " + user.getUsertype());
-            if (user instanceof Readable) {
-                ((Readable) user).ReadData();
-            }
-            if (user instanceof Writable && !(user instanceof AdminUser)) {
-                ((Writable) user).writeData("someDetails");
-            }
+
+            // Dynamically handle user actions based on type
             if (user instanceof AdminUser) {
-                ((AdminUser) user).modifySetting("src/main/java/org/example/oldFileName.txt", "src/main/java/org/example/newFileName.txt");
+                handleAdminUserMenu((AdminUser) user);
+            } else if (user instanceof PowerUser) {
+                handlePowerUserMenu((PowerUser) user);
+            } else if (user instanceof RegularUser) {
+                handleRegularUserMenu((RegularUser) user);
             }
         } else {
-            System.out.println("Invalid type of user!!!!!");
+            System.out.println("Invalid Username or Password!");
         }
+
         scanner.close();
     }
 
-    private static void handleUserActions(User user) {
-        if (user instanceof RegularUser) {
-            handleRegularUser((RegularUser) user);
-        } else if (user instanceof PowerUser) {
-            handlePowerUser((PowerUser) user);
-        } else if (user instanceof AdminUser) {
-            handleAdminUser((AdminUser) user);
-        }
-    }
-
-    private static void handleRegularUser(RegularUser user) {
-        System.out.println("Regular User Menu:");
-        System.out.println("1. Read Data");
+    private static void handleRegularUserMenu(RegularUser user) {
+        System.out.println("Regular User: Read-only Access.");
         user.ReadData();
     }
 
-    private static void handlePowerUser(PowerUser user) {
+    private static void handlePowerUserMenu(PowerUser user) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Power User Menu:");
         System.out.println("1. Read Data");
-        System.out.println("2. Add New User");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose an option:");
+        System.out.println("2. Write Data");
+        System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
 
         switch (choice) {
             case 1 -> user.ReadData();
             case 2 -> {
-                System.out.println("Enter New User details");
-                String newUserDetails = scanner.nextLine();
-                user.writeData(newUserDetails);
+                System.out.print("Enter data to write: ");
+                String data = scanner.nextLine();
+                System.out.print("Enter user type (Regular/Power/Admin): ");
+                String userType = scanner.nextLine();
+                user.writeData(data, userType);
             }
             default -> System.out.println("Invalid option!");
         }
     }
 
-    private static void handleAdminUser(AdminUser user) {
+    private static void handleAdminUserMenu(AdminUser user) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Admin User Menu:");
         System.out.println("1. Read Data");
-        System.out.println("2. Add New User");
+        System.out.println("2. Write Data");
         System.out.println("3. Rename File");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose an option:");
+        System.out.println("4. Update User Details");
+        System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
 
         switch (choice) {
             case 1 -> user.ReadData();
             case 2 -> {
-                System.out.println("Enter new user details (comma-separated: name,username,password,usertype):");
-                String newUserDetails = scanner.nextLine();
-                user.writeData(newUserDetails);
+                System.out.print("Enter data to write: ");
+                String data = scanner.nextLine();
+                System.out.print("Enter user type (Regular/Power/Admin): ");
+                String userType = scanner.nextLine();
+                user.writeData(data, userType);
             }
             case 3 -> {
-                System.out.println("Enter old file name:");
+                System.out.print("Enter old file name: ");
                 String oldFileName = scanner.nextLine();
-                System.out.println("Enter new file name:");
+                System.out.print("Enter new file name: ");
                 String newFileName = scanner.nextLine();
                 user.modifySetting(oldFileName, newFileName);
+            }
+            case 4 -> {
+                System.out.print("Enter username to update: ");
+                String username = scanner.nextLine();
+                System.out.print("Enter updated details (userID,email,password): ");
+                String updatedDetails = scanner.nextLine();
+                user.updateUserDetails(username, updatedDetails);
             }
             default -> System.out.println("Invalid option!");
         }

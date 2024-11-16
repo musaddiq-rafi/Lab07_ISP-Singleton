@@ -34,26 +34,29 @@ public class FileHandler {
         }
     }
 
-    public void updateFile(String filename, List<String[]> updatedData){
-        try(BufferedWriter writer= new BufferedWriter(new FileWriter(filename))) {
-            for (String[] row : updatedData){
-                writer.write(String.join(",",row));
-                writer.newLine(); // Add a new line after each record
+    public void updateFile(String filename, List<String[]> updatedData) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (String[] row : updatedData) {
+                writer.write(String.join(",", row));
+                writer.newLine();
             }
             System.out.println("File updated successfully!");
         } catch (IOException e) {
-            System.out.println("Error updating file: "+ e.getMessage());
+            System.out.println("Error updating file: " + e.getMessage());
         }
     }
 
-    public void renameFile(String oldName, String newName){
-        File oldFile= new File(oldName);
+    public void renameFile(String oldName, String newName) {
+        File oldFile = new File(oldName);
         File newFile = new File(newName);
-        if(oldFile.renameTo(newFile)){
-            System.out.println("File renamed successfully! ");
-        }
-        else{
-            System.out.println("Renaming failed");
+        if (oldFile.exists()) {
+            if (oldFile.renameTo(newFile)) {
+                System.out.println("File renamed successfully!");
+            } else {
+                System.out.println("Renaming failed.");
+            }
+        } else {
+            System.out.println("Old file does not exist: " + oldName);
         }
     }
 }

@@ -1,2 +1,3 @@
-5,admin,admin@example.com,adminPass
-6,superadmin,superadmin@example.com,superPass
+1,admin,admin@example.com,adminPass
+2,root,root@example.com,superuser
+3,admin2,example@yy.com,adminPass2

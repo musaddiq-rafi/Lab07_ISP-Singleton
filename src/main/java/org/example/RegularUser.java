@@ -1,41 +1,26 @@
 package org.example;
 
-public class RegularUser implements User, Readable{
-    private final String userID;
-    private final String username;
-    private final String email;
-    private final String password;
+import java.util.List;
 
-    public RegularUser(String userID, String username, String email, String password) {
-        this.userID = userID;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+public class RegularUser extends User {
+    public RegularUser(String userId, String username, String email, String password) {
+        super(userId, username, email, password);
     }
 
     @Override
     public void ReadData() {
-        System.out.println("Regular user can only read data.");
-    }
+        FileHandler fileHandler = new FileHandler();
+        String filePath = "src/main/java/org/example/RegularUser.csv"; // Path to the data file
 
-    @Override
-    public String getUserID() {
-        return userID;
-    }
-
-    @Override
-    public String getUserName() {
-        return username;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        List<String[]> data = fileHandler.readFile(filePath);
+        if (data.isEmpty()) {
+            System.out.println("No data found.");
+        } else {
+            System.out.println("Data for Regular User:");
+            for (String[] row : data) {
+                System.out.println(String.join(", ", row));
+            }
+        }
     }
 
     @Override
