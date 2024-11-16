@@ -54,4 +54,16 @@ public class FileHandler {
         }
     }
 
+    public void upadeFile(String filePath, List<String[]> userData) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String[] row : userData) {
+                writer.write(String.join(",", row));
+                writer.newLine(); // Add a new line after each record
+            }
+            System.out.println("File updated successfully!");
+        } catch (IOException e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+    }
+
 }
