@@ -10,7 +10,7 @@ public class RegularUser extends User {
     @Override
     public void ReadData() {
         FileHandler fileHandler = new FileHandler();
-        String filePath = "src/main/java/org/example/RegularUser.csv"; // Path to the data file
+        String filePath = "src/main/java/org/example/RegularUser.csv";
 
         List<String[]> data = fileHandler.readFile(filePath);
         if (data.isEmpty()) {

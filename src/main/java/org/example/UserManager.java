@@ -52,22 +52,22 @@ public class UserManager {
     }
 
     public User authenticate(String username, String password) {
-        // Check Regular Users
+
         if (regularUsers.containsKey(username) && regularUsers.get(username).getPassword().equals(password)) {
             return regularUsers.get(username);
         }
 
-        // Check Power Users
+
         if (powerUsers.containsKey(username) && powerUsers.get(username).getPassword().equals(password)) {
             return powerUsers.get(username);
         }
 
-        // Check Admins
+
         if (admins.containsKey(username) && admins.get(username).getPassword().equals(password)) {
             return admins.get(username);
         }
 
-        // If no match is found
+
         return null;
     }
 }

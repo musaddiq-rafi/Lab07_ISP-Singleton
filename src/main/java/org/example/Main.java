@@ -7,20 +7,19 @@ public class Main {
         UserManager userManager = UserManager.getInstance();
         Scanner scanner = new Scanner(System.in);
 
-        // Prompt for Username and Password
+
         System.out.print("Enter Username: ");
         String username = scanner.nextLine();
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        // Authenticate User
         User user = userManager.authenticate(username, password);
         if (user != null) {
-            // Display user type
+
             System.out.println("Authenticated as " + user.getUsertype());
 
-            // Dynamically handle user actions based on type
+
             if (user instanceof AdminUser) {
                 handleAdminUserMenu((AdminUser) user);
             } else if (user instanceof PowerUser) {
@@ -47,7 +46,7 @@ public class Main {
         System.out.println("2. Write Data");
         System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
 
         switch (choice) {
             case 1 -> user.ReadData();
@@ -71,7 +70,7 @@ public class Main {
         System.out.println("4. Update User Details");
         System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
 
         switch (choice) {
             case 1 -> user.ReadData();

@@ -30,7 +30,7 @@ public class AdminUser extends PowerUser {
                 return;
         }
 
-        fileHandler.writeFile(filePath, newUserDetails, true); // Appends new user data to the file
+        fileHandler.writeFile(filePath, newUserDetails, true);
         System.out.println("New " + userType + " user details added successfully!");
     }
 
